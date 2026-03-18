@@ -6,6 +6,10 @@
 
 ---
 
+![Demo pipeline](https://raw.githubusercontent.com/OliverLegarretaUOC/tfm-threat-detection/main/results/demo/demo_pipeline.gif)
+
+---
+
 ## Descripción
 
 Sistema de detección de amenazas armadas en vídeo basado en visión por computador y deep learning. El pipeline combina múltiples modelos YOLOv8 en una arquitectura por etapas capaz de detectar armas, analizar la pose corporal y evaluar la intención del sujeto.
