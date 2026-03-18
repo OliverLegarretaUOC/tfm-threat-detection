@@ -1,0 +1,32 @@
+=== EVALUACIÓN CUANTITATIVA ===
+
+Modelo: /content/drive/MyDrive/TFM/experiments/weapon_det/yolov8m_weapons_B_e50_640/weights/best.pt
+CONF_WEAPON=0.25 | IOU_NMS=0.7 | DETECTION_THRESHOLD=5
+
+--- BLOQUE A: mAP a nivel de frame ---
+Total GT boxes : 20545
+mAP@50         : 0.7789
+mAP@50:95      : 0.2674
+Precision@50   : 0.7789
+Recall@50      : 0.3320
+
+--- BLOQUE B: Clasificación clip-level ---
+Accuracy   : 0.7519
+Precision  : 0.7209
+Recall     : 0.8857
+F1         : 0.7949
+TP=124 TN=70 FP=48 FN=16
+
+--- BLOQUE C: FP por categoría negativa ---
+  N1: 3/9 (33.3%)
+  N2: 3/9 (33.3%)
+  N3: 0/8 (0.0%)
+  N4: 2/7 (28.6%)
+  N5: 2/10 (20.0%)
+  N6: 8/16 (50.0%)
+  N7: 4/7 (57.1%)
+  N8: 9/15 (60.0%)
+  N9: 7/9 (77.8%)
+  N10: 2/9 (22.2%)
+  N11: 4/9 (44.4%)
+  N12: 4/10 (40.0%)
