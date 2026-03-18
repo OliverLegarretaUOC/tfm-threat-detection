@@ -1,0 +1,39 @@
+# Pesos de modelos (demasiado grandes para Git)
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Vídeos y datasets
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Datos sensibles
+secrets/
+*_key.txt
+*.env
+
+# Checkpoints y runs de entrenamiento
+runs/
+wandb/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Google Drive / Colab
+.config/
+drive/
