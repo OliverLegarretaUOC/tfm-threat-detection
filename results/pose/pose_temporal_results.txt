@@ -1,0 +1,24 @@
+=== EVALUACIÓN B + HPE TEMPORAL ===
+
+POSE_WINDOW=10  AIMING_RUN_THR=3
+AIMING_ANGLE_THR=160  KP_CONF_THR=0.3
+
+  Accuracy   ModeloB=0.7519  B+HPE=0.7403  (-0.0116)
+  Precision  ModeloB=0.7209  B+HPE=0.7829  (+0.0620)
+  Recall     ModeloB=0.8857  B+HPE=0.7214  (-0.1643)
+  F1         ModeloB=0.7949  B+HPE=0.7509  (-0.0439)
+  TP=101 TN=90 FP=28 FN=39
+
+--- FP por categoria ---
+  N1: FP_B=3/9 (33.3%)  FP_HPE=3/9 (33.3%)
+  N2: FP_B=3/9 (33.3%)  FP_HPE=0/9 (0.0%)
+  N3: FP_B=0/8 (0.0%)  FP_HPE=0/8 (0.0%)
+  N4: FP_B=2/7 (28.6%)  FP_HPE=2/7 (28.6%)
+  N5: FP_B=2/10 (20.0%)  FP_HPE=2/10 (20.0%)
+  N6: FP_B=8/16 (50.0%)  FP_HPE=5/16 (31.2%)
+  N7: FP_B=4/7 (57.1%)  FP_HPE=0/7 (0.0%)
+  N8: FP_B=9/15 (60.0%)  FP_HPE=7/15 (46.7%)
+  N9: FP_B=7/9 (77.8%)  FP_HPE=1/9 (11.1%)
+  N10: FP_B=2/9 (22.2%)  FP_HPE=2/9 (22.2%)
+  N11: FP_B=4/9 (44.4%)  FP_HPE=4/9 (44.4%)
+  N12: FP_B=4/10 (40.0%)  FP_HPE=2/10 (20.0%)
