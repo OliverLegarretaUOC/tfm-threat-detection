@@ -1,6 +1,7 @@
-# TFM — Video Threat Detection Pipeline
+# TFM — Deteccion de personas armadas y análisis de intención para determinar situaciones de violencia
 
-**Máster en Inteligencia Artificial · Universitat Oberta de Catalunya**
+**Máster en Ciencia de Datos · Universitat Oberta de Catalunya**
+
 **Autor:** Oliver Legarreta · **Tutor:** Miguel Alejandro Ponce Proaño
 
 ---
