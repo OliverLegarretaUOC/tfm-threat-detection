@@ -1,4 +1,4 @@
-# TFM — Deteccion de personas armadas y análisis de intención para determinar situaciones de violencia
+# TFM — Deteccion de personas armadas y análisis de intención para evaluar situaciones de violencia en vídeo
 
 **Máster en Ciencia de Datos · Universitat Oberta de Catalunya**
 
@@ -10,7 +10,7 @@
 
 Sistema de detección de amenazas armadas en vídeo basado en visión por computador y deep learning. El pipeline combina múltiples modelos YOLOv8 en una arquitectura por etapas capaz de detectar armas, analizar la pose corporal y evaluar la intención del sujeto.
 
-El sistema está diseñado sobre el dataset **Gun Action Recognition (GAR)** y se evalúa tanto a nivel de frame como a nivel de clip (258 clips: 140 positivos, 118 negativos).
+El sistema está diseñado sobre el dataset **CS 231 N (Roboflow)** (https://universe.roboflow.com/dana-q9plh/cs-231n-project) y se evalúa tanto a nivel de frame como a nivel de clip (258 clips: 140 positivos, 118 negativos) con el dataset de **Gun Action Recognition** (https://www.sciencedirect.com/science/article/pii/S2352340924000040)
 
 ---
 
