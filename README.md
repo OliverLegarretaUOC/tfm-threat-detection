@@ -2,7 +2,7 @@
 
 **Máster en Ciencia de Datos · Universitat Oberta de Catalunya**
 
-**Autor:** Oliver Legarreta · **Tutor:** Miguel Alejandro Ponce Proaño
+**Autor:** Oliver Legarreta García · **Tutor:** Miguel Alejandro Ponce Proaño
 
 ---
 
