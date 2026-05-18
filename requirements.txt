@@ -1,0 +1,32 @@
+# TFM — Detección de amenazas armadas en vídeo
+# Entorno: Google Colab Pro (Python 3.10+, CUDA disponible via GPU T4)
+#
+# Instalación:
+#   pip install -r requirements.txt
+
+# --- Modelos y visión por computador ---
+ultralytics>=8.0.0          # YOLOv8 (detección, segmentación, pose)
+opencv-python>=4.8.0        # Procesamiento de vídeo/imagen
+Pillow>=9.5.0               # Manipulación de imágenes
+
+# --- SAM2 (Meta AI) ---
+# Instalación manual desde el repositorio oficial:
+#   pip install git+https://github.com/facebookresearch/sam2.git
+# El paquete huggingface_hub permite descargar los pesos:
+huggingface-hub>=0.20.0
+
+# --- LLM (Stage 4) ---
+anthropic>=0.25.0            # Claude API
+
+# --- Cómputo numérico y análisis ---
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.11.0
+
+# --- Visualización ---
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# --- Utilidades ---
+tqdm>=4.65.0
+Requests>=2.31.0
