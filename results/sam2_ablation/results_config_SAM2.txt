@@ -1,0 +1,30 @@
+=== EVALUACIÓN SAM2 PIPELINE ===
+
+SAM2 model     : facebook/sam2.1-hiera-base-plus
+CONF_WEAPON=0.25 | PADDING=0.1 | THRESHOLD=5
+MIN_MASK_AREA=0.02 | MAX_MASKS=5
+
+--- BLOQUE A ---
+mAP@50    : 0.8354
+mAP@50:95 : 0.3630
+
+--- BLOQUE B ---
+Accuracy  : 0.6434
+Precision : 0.6200
+Recall    : 0.8857
+F1        : 0.7294
+TP=124 TN=42 FP=76 FN=16
+
+--- BLOQUE C ---
+  N1: 6/9 (66.7%)
+  N2: 6/9 (66.7%)
+  N3: 5/8 (62.5%)
+  N4: 3/7 (42.9%)
+  N5: 5/10 (50.0%)
+  N6: 11/16 (68.8%)
+  N7: 4/7 (57.1%)
+  N8: 10/15 (66.7%)
+  N9: 6/9 (66.7%)
+  N10: 7/9 (77.8%)
+  N11: 6/9 (66.7%)
+  N12: 7/10 (70.0%)
