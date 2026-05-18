@@ -231,7 +231,3 @@ model = YOLO('/content/weapon_best.pt')
 ## Licencia
  
 Este repositorio contiene código desarrollado como parte de un Trabajo Fin de Máster académico. Los modelos de terceros (YOLOv8, SAM2) están sujetos a sus respectivas licencias.
- 
-## Licencia
- 
-Este repositorio contiene código desarrollado como parte de un Trabajo Fin de Máster académico. Los modelos de terceros (YOLOv8, SAM2) están sujetos a sus respectivas licencias.
