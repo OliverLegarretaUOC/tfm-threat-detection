@@ -1,0 +1,34 @@
+=== CONFIG C20 — BBOX_PAD20 ===
+
+WEAPON_MODEL: /content/drive/MyDrive/TFM/experiments/weapon_det/yolov8m_weapons_B_e50_640/weights/best.pt
+Estrategia: bbox persona + 20% padding
+SEG_MODEL: yolov8s-seg.pt | CONF_SEG=0.4
+CONF_WEAPON=0.25 | IOU_NMS=0.7 | DETECTION_THRESHOLD=5
+
+--- BLOQUE A: mAP frame-level ---
+Total GT boxes : 20545
+mAP@50         : 0.8164
+mAP@50:95      : 0.2801
+Precision@50   : 0.8164
+Recall@50      : 0.3209
+
+--- BLOQUE B: clip-level ---
+Accuracy       : 0.7519
+Precision      : 0.7289
+Recall         : 0.8643
+F1             : 0.7908
+TP=121 TN=73 FP=45 FN=19
+
+--- BLOQUE C: FP por categoría ---
+  N1: 4/9 (44.4%)
+  N2: 2/9 (22.2%)
+  N3: 0/8 (0.0%)
+  N4: 1/7 (14.3%)
+  N5: 4/10 (40.0%)
+  N6: 6/16 (37.5%)
+  N7: 5/7 (71.4%)
+  N8: 11/15 (73.3%)
+  N9: 5/9 (55.6%)
+  N10: 2/9 (22.2%)
+  N11: 2/9 (22.2%)
+  N12: 3/10 (30.0%)
