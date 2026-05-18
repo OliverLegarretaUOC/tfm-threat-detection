@@ -50,33 +50,48 @@ tfm-threat-detection/
 │   ├── utils/
 │   │   ├── 00_coco_negatives.ipynb          # Construcción de negativos COCO para entrenamiento
 │   │   ├── 07_stable_split.ipynb            # Splits train/val/test estratificados
-│   │   └── 09_no_gun_split.ipynb            # Split de clips negativos GAR
+│   │   ├── 09_no_gun_split.ipynb            # Split de clips negativos GAR
+│   │   └── descarga_robo.ipynb              # Descarga del dataset base desde Roboflow
+│   │
 │   ├── 01_procesar_dataset.ipynb            # Construcción del dataset de detección
 │   ├── 02_entrenamiento.ipynb               # Entrenamiento YOLOv8m (Modelo A y B)
 │   ├── 03_post_entrenamiento.ipynb          # Análisis post-entrenamiento y curvas
+│   │
 │   ├── 10_evaluacion.ipynb                  # Evaluación cuantitativa Modelo B (frame + clip)
 │   ├── 11_pose_exploration.ipynb            # Exploración visual HPE sobre clips GAR
 │   ├── 12_pose_temporal_eval.ipynb          # Evaluación cuantitativa pipeline B + HPE
 │   ├── 13_llm_intent_analysis.ipynb         # Integración y validación Stage 4 LLM
 │   ├── 14_demo_video.ipynb                  # Generación de vídeo demo anotado
+│   │
 │   ├── 15_seg_ablation_baseline.ipynb       # Ablación segmentación — Config A (baseline)
 │   ├── 16_seg_ablation_configs.ipynb        # Ablación segmentación — Configs B, C10/C20/C30
 │   ├── 17_seg_ablation_results.ipynb        # Análisis y comparativa ablación segmentación
 │   ├── 18_shot_detection.ipynb              # Módulo de detección de disparos (kinematic)
 │   ├── 19_seg_ablation_resumen.ipynb        # Resumen ablación para presentación al tutor
-│   └── 20_sam2_weapon_detection.ipynb       # Experimento SAM2 como pre-procesado
+│   ├── 20_sam2_weapon_detection.ipynb       # Experimento SAM2 como pre-procesado
+│   │
+│   ├── 21_comparativa_final.ipynb           # Comparativa global A/B/C/D + ablación
+│   ├── 22_visualizacion_sbs.ipynb           # Visualización side-by-side de resultados
+│   ├── 23_lvis_negatives.ipynb              # Construcción de negativos LVIS (para Modelo C)
+│   ├── 24_train_modelo_c.ipynb              # Entrenamiento Modelo C (yolov8m-seg + LVIS)
+│   ├── 25_eval_modelo_c.ipynb               # Evaluación Modelo C sobre GAR
+│   ├── 26_openimages_negatives_v2.ipynb     # Descarga negativos Open Images V7 (para Modelo D)
+│   ├── 27_train_modelo_d.ipynb              # Entrenamiento Modelo D (yolov8m-seg + OI)
+│   └── 28_eval_modelo_d.ipynb              # Evaluación Modelo D sobre GAR
 │
 ├── results/
 │   ├── weapon_detection/
 │   │   ├── plots/
 │   │   │   ├── results_modeloA.png          # Curvas loss/mAP Modelo A
 │   │   │   ├── results_modeloB.png          # Curvas loss/mAP Modelo B
+│   │   │   ├── results_modeloC.png          # Curvas loss/mAP Modelo C
+│   │   │   ├── results_modeloD.png          # Curvas loss/mAP Modelo D
 │   │   │   └── confusion_matrix_modeloB.png
 │   │   ├── training_curves_modeloA.csv      # Métricas epoch a epoch Modelo A
 │   │   ├── training_curves_modeloB.csv      # Métricas epoch a epoch Modelo B
 │   │   └── evaluation_results_B.txt         # Evaluación clip-level Modelo B (mAP + F1)
 │   ├── seg_ablation/
-│   │   └── seg_ablation_summary.csv         # Comparativa configs A/B/C10/C20/C30
+│   │   └── seg_ablation_summary.csv         # Comparativa configs A/B/C10/C20/C30 y SAM2
 │   ├── pose/
 │   │   ├── pose_temporal_results.txt        # Métricas B vs B+HPE
 │   │   └── clip_results.csv                 # Resultados por clip con HPE
@@ -92,27 +107,33 @@ tfm-threat-detection/
  
 ## Resultados principales
  
-### Stage 2 — Detección de arma (clip-level, umbral = 5 frames)
+### Stage 2 — Comparativa de modelos de detección
  
-| Modelo | mAP@50 | Precision | Recall | F1 (clip) | FP | FN |
-|--------|--------|-----------|--------|-----------|----|----|
-| Modelo A | 0.626 | 0.626 | 0.421 | 0.720 | 100 | 5 |
-| **Modelo B** | **0.779** | **0.779** | **0.332** | **0.795** | **48** | **16** |
+Se entrenaron cuatro modelos con distintas arquitecturas y estrategias de negativos. La evaluación clip-level se realiza sobre los 258 clips del dataset GAR con umbral de 5 frames.
  
-El **Modelo B** incorpora ~3.000 imágenes negativas de COCO como hard negatives durante el entrenamiento. Esto supone una reducción de falsos positivos del **52%** respecto al Modelo A.
+| Modelo | Arquitectura | Negativos entrenamiento | mAP@50 | F1 | Precisión | Recall | FP | FN |
+|--------|-------------|------------------------|--------|-----|-----------|--------|----|----|
+| A | YOLOv8m detección | — | 0.626 | 0.720 | 0.575 | 0.964 | 100 | 5 |
+| **B** | **YOLOv8m detección** | **~3.000 COCO** | **0.779** | **0.795** | **0.721** | **0.886** | **48** | **16** |
+| C | YOLOv8m-seg | 108 LVIS | 0.105 | 0.796 | 0.701 | 0.921 | 55 | 11 |
+| D | YOLOv8m-seg | LVIS + 1.586 Open Images V7 | 0.046 | 0.702 | 0.575 | 0.900 | 93 | 14 |
+ 
+**Decisión:** el **Modelo B** se consolida como detector de producción. El entrenamiento con negativos de COCO supone una reducción de FP del **52%** respecto al Modelo A, manteniendo un mAP@50 frame-level muy superior al de los modelos de segmentación. Los Modelos C y D (arquitectura seg) obtienen métricas clip comparables pero su mAP@50 frame-level es 7–17× inferior, lo que indica bounding boxes poco precisos a nivel de frame individual. El Modelo D degrada respecto al C: las máscaras de Open Images V7 son ruidosas y su dominio (interiores domésticos) es incompatible con el dominio de vigilancia del GAR.
  
 Categorías negativas con mayor tasa de FP en Modelo B:
  
-| Categoría | Descripción | FP% |
-|-----------|-------------|-----|
+| Cat | Descripción | FP% |
+|-----|-------------|-----|
 | N9 | Phone recording 2h | 77.8% |
 | N8 | Phone recording 1h | 60.0% |
 | N7 | Phone both hands | 57.1% |
 | N6 | Phone looking | 50.0% |
  
-El análisis indica que estos FP son errores de forma (el modelo reconoce la silueta del teléfono como arma) y no son corregibles únicamente ajustando el umbral de confianza — requieren intervención en el entrenamiento.
+Estos FP son errores de forma (silueta del teléfono confundida con arma) y no son corregibles ajustando el umbral de confianza — requieren intervención en el entrenamiento con hard negatives específicos del dominio.
  
 ### Stage 3 — Human Pose Estimation (HPE)
+ 
+El módulo HPE se aplica sobre las salidas del Modelo B como filtro de Nivel 2. Clasifica la pose del brazo en tres estados: AIMING (ángulo ≥ 160°), HOLDING (100–159°) y NEUTRAL (< 100°).
  
 | | Modelo B | Modelo B + HPE | Δ |
 |---|---|---|---|
@@ -123,31 +144,29 @@ El análisis indica que estos FP son errores de forma (el modelo reconoce la sil
 | FP | 48 | 28 | **−41.7%** |
 | FN | 16 | 39 | +23 |
  
-El módulo HPE clasifica la pose en tres estados: AIMING (ángulo ≥ 160°), HOLDING (100–159°) y NEUTRAL (< 100°). El aumento de FN se concentra en clips de porte oculto (PCH3/5/6/7) donde el brazo no está extendido, lo que es consistente con la naturaleza de esa clase.
+La reducción de FP es de un **41.7%** adicional, con mayor impacto en categorías de personas sujetando teléfonos (N7: −57 pp, N9: −67 pp). El aumento de FN se concentra en clips de porte oculto (PCH3/5/6/7) donde el brazo no está extendido, lo cual es consistente con la naturaleza de esa clase.
  
 ### Ablación de segmentación (notebooks 15–17)
  
-Se evaluaron cinco configuraciones para restringir la región de detección del arma:
+Se evaluaron cinco configuraciones para restringir la región de detección al contorno corporal, más el experimento SAM2:
  
 | Config | Descripción | F1 | Δ vs baseline |
 |--------|-------------|-----|----------------|
 | A | Frame completo (baseline) | 0.7947 | — |
-| B | Máscara de píxel (seg exacta) | 0.551 | −0.244 |
+| B | Máscara de píxel exacta | 0.551 | −0.244 |
 | C10 | Bounding box + padding 10% | 0.7947 | 0.000 |
 | C20 | Bounding box + padding 20% | < A | − |
 | C30 | Bounding box + padding 30% | < A | − |
+| SAM2 | Segmentación SAM2 por objetos | 0.729 | −0.066 |
  
-**Decisión:** se mantiene el baseline (Config A, sin segmentación). La segmentación ayuda cuando el objeto confusor está alejado del cuerpo (N6 teléfono: −25 pp de FP; N11 bebiendo: −33 pp), pero perjudica cuando está próximo (N5 teléfono relajado: +40 pp de FP) porque el padding incluye el objeto confusor en la ROI. Config B degrada significativamente porque el arma puede extenderse más allá del contorno corporal.
- 
-### Experimento SAM2 (notebook 20)
- 
-Se evaluó `facebook/sam2.1-hiera-base-plus` como etapa de pre-procesado: segmentación por objetos antes de pasar cada segmento al detector de armas. Validación sobre 20 clips: 7/10 TP, 7/10 TN, tiempo medio de 67.3 s/clip. El experimento se documenta como exploración metodológica; los resultados completos y la decisión de inclusión/exclusión en el pipeline de producción se discuten en la memoria.
+**Decisión:** se mantiene el baseline (Config A, sin segmentación). La segmentación ayuda cuando el objeto confusor está alejado del cuerpo (N6: −25 pp de FP; N11: −33 pp), pero perjudica cuando está próximo (N5: +40 pp de FP). SAM2 sin fine-tuning genera múltiples máscaras ruidosas por frame en un dominio incompatible con vigilancia, aumentando los FP globalmente.
  
 ---
  
 ## Datasets
  
 - **Entrenamiento del detector:** [CS 231N — Roboflow](https://universe.roboflow.com/dana-q9plh/cs-231n-project) + negativos de COCO (~3.000 imágenes)
+- **Negativos adicionales explorados:** LVIS (Modelo C), Open Images V7 (Modelo D)
 - **Evaluación:** [Gun Action Recognition (GAR)](https://www.sciencedirect.com/science/article/pii/S2352340924000040) — Ruiz-Santaquiteria et al., 2024. 258 clips (140 positivos PAH/PCH, 118 negativos N1–N12)
 - **Validación detección de disparos:** J-HMDB `shoot_gun` class (55 clips)
 Los datasets no se incluyen en este repositorio. Consultar los enlaces para acceso.
@@ -208,6 +227,10 @@ model = YOLO('/content/weapon_best.pt')
 - Lin, T.-Y. et al. (2014). *Microsoft COCO: Common Objects in Context*. ECCV.
 - Spence, N. et al. (2024). *Occupational Hazards of Content Moderation*. Cyberpsychology, Behavior, and Social Networking. https://doi.org/10.1089/cyber.2023.0298
 ---
+ 
+## Licencia
+ 
+Este repositorio contiene código desarrollado como parte de un Trabajo Fin de Máster académico. Los modelos de terceros (YOLOv8, SAM2) están sujetos a sus respectivas licencias.
  
 ## Licencia
  
