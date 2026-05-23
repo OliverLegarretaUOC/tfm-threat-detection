@@ -1,5 +1,5 @@
 <h1 align="center">
-  🔫 Detección de Amenazas Armadas en Vídeo
+  Detección de Amenazas Armadas en Vídeo
 </h1>
 
 <p align="center">
