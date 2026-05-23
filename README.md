@@ -1,5 +1,5 @@
 <h1 align="center">
-    Detección de Amenazas Armadas en Vídeo
+  🔫 Detección de Amenazas Armadas en Vídeo
 </h1>
 
 <p align="center">
@@ -10,7 +10,7 @@
 <p align="center">
   <b>Autor:</b> Oliver Legarreta García &nbsp;·&nbsp;
   <b>Director:</b> Miguel Alejandro Ponce Proaño &nbsp;·&nbsp;
-  <b>Mayo 2026</b>
+  <b>Junio 2026</b>
 </p>
 
 <p align="center">
@@ -95,47 +95,51 @@ Reducción adicional de falsas alarmas del **41,7 %**, concentrada en categoría
 
 ```
 tfm-threat-detection/
+│
 ├── notebooks/
-│   ├── utils/
-│   │   ├── 00_añadir_coco_weapons_dataset.ipynb  # Construcción de negativos COCO
-│   │   ├── 07_conjunto_evaluacion_estable.ipynb   # Splits train/val/test estratificados
-│   │   └── 09_crear_split_no_gun.ipynb            # Split de clips negativos GAR
+│   ├── 0_data_preparation/                        # Preparación de datos
+│   │   ├── 01_build_detection_dataset.ipynb       # Dataset de detección (Roboflow)
+│   │   ├── 02_coco_hard_negatives.ipynb           # Negativos difíciles de COCO
+│   │   ├── 03_gar_evaluation_splits.ipynb         # Splits de evaluación GAR
+│   │   ├── 04_gar_negative_splits.ipynb           # Split de clips negativos GAR
+│   │   ├── 05_lvis_negatives.ipynb                # Negativos LVIS (Modelo C)
+│   │   └── 06_openimages_negatives.ipynb          # Negativos Open Images (Modelo D)
 │   │
-│   ├── 01_procesar_dataset.ipynb         # Construcción del dataset de detección
-│   ├── 02_entrenamiento.ipynb            # Entrenamiento YOLOv8m (Modelos A y B)
-│   ├── 03_post_entrenamiento.ipynb       # Análisis post-entrenamiento y curvas
+│   ├── 1_weapon_detection/                        # Etapa 2: detección de armas
+│   │   ├── 01_train_modelo_A_B.ipynb              # Entrenamiento Modelos A y B
+│   │   ├── 02_post_training_analysis.ipynb        # Curvas de entrenamiento y análisis
+│   │   ├── 03_evaluation_clip_level.ipynb         # Evaluación clip-level Modelo B
+│   │   ├── 04_train_modelo_C_seg.ipynb            # Entrenamiento Modelo C (YOLOv8m-seg)
+│   │   ├── 05_eval_modelo_C_seg.ipynb             # Evaluación Modelo C
+│   │   ├── 06_train_modelo_D_seg.ipynb            # Entrenamiento Modelo D (YOLOv8m-seg)
+│   │   ├── 07_eval_modelo_D_seg.ipynb             # Evaluación Modelo D
+│   │   └── 08_detection_vs_segmentation.ipynb     # Comparativa detección vs segmentación
 │   │
-│   ├── 10_evaluacion.ipynb               # Evaluación cuantitativa Modelo B (mAP + clip-level)
-│   ├── 11_pose_exploration.ipynb         # Exploración visual HPE sobre clips GAR
-│   ├── 12_pose_temporal_eval.ipynb       # Evaluación cuantitativa Nivel 2 (detector + HPE)
-│   ├── 13_llm_intent_analysis.ipynb      # Integración y validación Etapa 4 (LLM)
-│   ├── 14_demo_video.ipynb               # Generación de vídeo demo anotado
+│   ├── 2_segmentation_ablation/                   # Ablación de preproceso
+│   │   ├── 01_bbox_padding_ablation.ipynb         # Configs FC / R10 / R20 / R30
+│   │   ├── 02_pixel_mask_eval.ipynb               # Config MP (máscara de píxel)
+│   │   └── 03_sam2_experiment.ipynb               # Experimento SAM2
 │   │
-│   ├── 15_seg_weapon_eval.ipynb          # Evaluación detector de segmentación (Modelo C)
-│   ├── 16_seg_comparison.ipynb           # Comparativa detección vs segmentación
-│   ├── 17_bbox_padding_eval.ipynb        # Ablación de preproceso (FC/MP/R10/R20/R30)
-│   ├── 20_sam2_weapon_detection.ipynb    # Experimento SAM2 como preproceso
+│   ├── 3_pose_estimation/                         # Etapa 3: HPE
+│   │   ├── 01_pose_exploration.ipynb              # Exploración visual y ángulos
+│   │   └── 02_pose_temporal_eval.ipynb            # Evaluación Nivel 2 (det. + HPE)
 │   │
-│   ├── 21_comparativa_final.ipynb        # Comparativa global de todas las configuraciones
-│   ├── 22_visualizacion_sbs.ipynb        # Visualización side-by-side de resultados
-│   ├── 23_lvis_negatives.ipynb           # Descarga de negativos LVIS (para Modelo C)
-│   ├── 24_train_modelo_c.ipynb           # Entrenamiento Modelo C (YOLOv8m-seg + LVIS)
-│   ├── 25_eval_modelo_c.ipynb            # Evaluación Modelo C sobre GAR
-│   ├── 26_openimages_negatives_v2.ipynb  # Descarga de negativos Open Images V7
-│   ├── 27_train_modelo_d.ipynb           # Entrenamiento Modelo D (YOLOv8m-seg + OI)
-│   └── 28_eval_modelo_d.ipynb            # Evaluación Modelo D sobre GAR
+│   ├── 4_intent_analysis/                         # Etapa 4: LLM
+│   │   └── 01_llm_intent_analysis.ipynb           # Análisis de intención con Claude
+│   │
+│   └── 5_visualization/                           # Demos y visualización
+│       ├── 01_demo_video.ipynb                    # Vídeo demo anotado
+│       ├── 02_side_by_side.ipynb                  # Visualización comparativa
+│       └── 03_final_comparison.ipynb              # Comparativa global de configuraciones
 │
 ├── results/
-│   ├── weapon_detection/                 # Métricas y curvas de los modelos A/B
-│   │   ├── plots/                        # Curvas loss/mAP y matrices de confusión
-│   │   ├── training_curves_modeloB.csv
-│   │   └── evaluation_results_B.txt
-│   ├── eval_modelo_c/                    # Resultados clip-level Modelo C
-│   ├── eval_modelo_d/                    # Resultados clip-level Modelo D
-│   ├── seg_ablation/                     # Comparativa configs FC/MP/R10/R20/R30
-│   ├── sam2_ablation/                    # Resultados del experimento SAM2
-│   ├── pose/                             # Métricas Nivel 1 vs Nivel 2 (HPE)
-│   └── demo/                             # GIF y vídeo demo del pipeline
+│   ├── weapon_detection/          # Métricas y curvas Modelos A/B
+│   ├── eval_modelo_c/             # Resultados Modelo C
+│   ├── eval_modelo_d/             # Resultados Modelo D
+│   ├── seg_ablation/              # Ablación FC/MP/R10/R20/R30
+│   ├── sam2_ablation/             # Experimento SAM2
+│   ├── pose/                      # Métricas Nivel 1 vs Nivel 2
+│   └── demo/                      # GIF y vídeo demo
 │
 ├── requirements.txt
 ├── .gitignore
